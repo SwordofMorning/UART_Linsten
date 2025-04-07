@@ -114,14 +114,25 @@ function func_map()
     fi
 }
 
+function cf()
+{
+    cd ${ProjectPath}
+    echo_info "run Clang-Format."
+    find src -name '*.cpp' -o -name '*.h' -o -name '*.c' | \
+        xargs -I{} bash -c 'clang-format-16 -style=file {} | diff -u -L "{}" -L "{}" {} -' > .clang-format.diff
+}
+
 #################### Section 4 : Main ####################
 
 function main()
 {
+    clear
+
     echo_info "PWD: ${ProjectPath}"
     echo_info "Output: ${ProjectPath}/${BuildPath}"
 
     func_map ${1}
+    cf
 }
 
 main $1

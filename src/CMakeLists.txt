@@ -1,15 +1,22 @@
+# Get source files
 FILE(
     GLOB_RECURSE SRC_LIST 
     ./*.c
     ./*.cpp
 )
 
-# Exe output path
-SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
+# Create platform-specific target name
+set(TARGET_NAME "${APP_NAME}_${PLATFORM}")
 
-ADD_EXECUTABLE(${APP_NAME} ${SRC_LIST})
+# Create executable
+ADD_EXECUTABLE(${TARGET_NAME} ${SRC_LIST})
 
-# Link lib and so
+# Set C and CXX compiler for this target
+set(CMAKE_C_COMPILER ${TARGET_NAME}_C_COMPILER)
+set(CMAKE_CXX_COMPILER ${TARGET_NAME}_CXX_COMPILER)
+
+# Link libraries
 TARGET_LINK_LIBRARIES(
-    ${APP_NAME}
+    ${TARGET_NAME}
+    rt
 )
